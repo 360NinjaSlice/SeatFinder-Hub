@@ -1,0 +1,79 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class SeatReservationApp extends JFrame {
+
+    public SeatReservationApp() {
+        // Set up the JFrame
+        setTitle("Seat Reservation App");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        // Initialize GUI components
+        initComponents();
+    }
+
+    private void initComponents() {
+        // Create a main panel to hold all other components
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        // Title label
+        JLabel titleLabel = new JLabel("Seat Reservation System", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        mainPanel.add(titleLabel, BorderLayout.NORTH);
+
+        // Seat selection panel (placeholder for seats layout)
+        JPanel seatsPanel = new JPanel(new GridLayout(5, 5, 5, 5)); // Adjust grid size based on seat layout
+
+        // Add seat buttons
+        for (int i = 1; i <= 25; i++) {
+            JButton seatButton = new JButton("Seat " + i);
+            seatButton.addActionListener(new SeatButtonListener(seatButton));
+            seatsPanel.add(seatButton);
+        }
+
+        mainPanel.add(seatsPanel, BorderLayout.CENTER);
+
+        // Reservation button
+        JButton reserveButton = new JButton("Reserve");
+        reserveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(SeatReservationApp.this, "Seat reserved successfully!");
+            }
+        });
+        mainPanel.add(reserveButton, BorderLayout.SOUTH);
+
+        // Add mainPanel to the frame
+        add(mainPanel);
+    }
+
+    private class SeatButtonListener implements ActionListener {
+        private JButton seatButton;
+
+        public SeatButtonListener(JButton seatButton) {
+            this.seatButton = seatButton;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (seatButton.getBackground() == Color.GREEN) {
+                seatButton.setBackground(null); // Unselect if already selected
+            } else {
+                seatButton.setBackground(Color.GREEN); // Select the seat
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new SeatReservationApp().setVisible(true);
+            }
+        });
+    }
+}
